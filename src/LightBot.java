@@ -1,4 +1,8 @@
+import Luz.Luz;
 import Robot.Robot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LightBot {
     String[] mapa;
@@ -8,6 +12,7 @@ public class LightBot {
     LightBot(String[] mapa) {
         this.mapa = mapa;
         this.mapeo = mapaCreator(mapa);
+
     }
 
     void runProgram(String[] comandos) {
@@ -26,18 +31,23 @@ public class LightBot {
     }
 
     static void encontrarPosicionesElementos(char[][] mapeo) {
+        List<Luz> bombillas = new ArrayList<>();
         for (int i = 0; i < mapeo.length; i++) {
             for (int j = 0; j < mapeo[0].length; j++) {
                 char elemento = mapeo[i][j];
                 switch (elemento) {
                     case 'R', 'D', 'L', 'U':
-                        try{
+                        try {
                             Robot.direccion dir = seleccionDireccion(elemento);
-                            Robot rb = new Robot(mapeo[i][j], mapeo[i][j], dir);
-                        }catch (Exception e){
+                            Robot rb = new Robot(i, j, dir);
+                        } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
-
+                        break;
+                    case 'O':
+                        bombillas.add(new Luz(i, j,false));
+                        break;
+                    case 'X':
 
                 }
             }
@@ -46,11 +56,15 @@ public class LightBot {
     }
 
     public static Robot.direccion seleccionDireccion(char elemento) {
-        switch (elemento){
-            case 'R': return Robot.direccion.R;
-            case 'D': return Robot.direccion.D;
-            case 'L': return Robot.direccion.L;
-            case 'U': return Robot.direccion.U;
+        switch (elemento) {
+            case 'R':
+                return Robot.direccion.R;
+            case 'D':
+                return Robot.direccion.D;
+            case 'L':
+                return Robot.direccion.L;
+            case 'U':
+                return Robot.direccion.U;
         }
         throw new RuntimeException("La dirección del Robot es incorrecta");
     }
@@ -65,7 +79,8 @@ public class LightBot {
     }
 
     void reset() {
-
+        this.mapeo = mapaCreator(mapa);
+        encontrarPosicionesElementos(this.mapeo);
     }
 
 
