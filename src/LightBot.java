@@ -8,6 +8,7 @@ public class LightBot {
     String[] mapa;
     Robot robot;
     char[][] mapeo;
+    List<Luz> luces = new ArrayList<>();
 
     LightBot(String[] mapa) {
         this.mapa = mapa;
@@ -16,7 +17,9 @@ public class LightBot {
     }
 
     void runProgram(String[] comandos) {
-
+        for (String comando : comandos) {
+        robot.ordenesJugador(comando);
+        }
     }
 
     public static char[][] mapaCreator(String[] mapa) {
@@ -30,29 +33,27 @@ public class LightBot {
         return mapeo;
     }
 
-    static void encontrarPosicionesElementos(char[][] mapeo) {
-        List<Luz> bombillas = new ArrayList<>();
+    void encontrarPosicionesElementos(char[][] mapeo) {
+
         for (int i = 0; i < mapeo.length; i++) {
             for (int j = 0; j < mapeo[0].length; j++) {
                 char elemento = mapeo[i][j];
                 switch (elemento) {
                     case 'R', 'D', 'L', 'U':
-                        try {
-                            Robot.direccion dir = seleccionDireccion(elemento);
-                            Robot rb = new Robot(i, j, dir);
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
-                        }
+
+                        Robot.direccion dir = seleccionDireccion(elemento);
+                        this.robot = new Robot(i, j, dir);
+
                         break;
                     case 'O':
-                        bombillas.add(new Luz(i, j,false));
+                        luces.add(new Luz(i, j, false));
                         break;
                     case 'X':
 
                 }
             }
-        }
 
+        }
     }
 
     public static Robot.direccion seleccionDireccion(char elemento) {
@@ -71,6 +72,18 @@ public class LightBot {
 
     private String ejecutarComando(String comando) {
         return "";
+    }
+
+    public String[] getMap() {
+        String[] mapaRetornado = new String[this.mapa.length];
+        char[][] mapaPreparado = this.mapeo;
+        for (int i = 0; i < mapaRetornado.length; i++) {
+            for (int j = 0; j < mapaPreparado[i].length; j++) {
+                char elemento = mapaPreparado[i][j];
+                mapaRetornado[i] += elemento;
+            }
+        }
+        return mapaRetornado;
     }
 
     public int[] getRobotPosition() {
