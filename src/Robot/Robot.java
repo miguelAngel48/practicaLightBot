@@ -1,5 +1,9 @@
 package Robot;
 
+import Luz.Luz;
+
+import java.util.List;
+
 public class Robot {
 
     public int posicionX;
@@ -15,17 +19,31 @@ public class Robot {
         direccionActual = dir;
     }
 
-    public void ordenesJugador(String orden) {
+    public void ordenesJugador(String orden, List<Luz> luces) {
         switch (orden) {
             case "FORWARD":
                 compruebaDireccionActualRobot(direccionActual);
+                break;
             case "RIGHT":
                 direccionActual = rotarRobot(true);
+                break;
             case "LEFT":
                 direccionActual = rotarRobot(false);
+                break;
             case "LIGHT":
+                encenderLuz(luces);
+            break;
 
+        }
+    }
 
+    public void encenderLuz(List<Luz> luces) {
+        for (Luz luz : luces){
+            if (this.posicionX == luz.posicionX && this.posicionY == luz.posicionY){
+                luz.encendido = !luz.encendido;
+                System.out.println(luces);
+                break;
+            }
         }
     }
 
@@ -58,5 +76,14 @@ public class Robot {
                 throw new IllegalArgumentException("Dirección desconocida: " + dir);
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return "Robot{" +
+                "posicionX=" + posicionX +
+                ", posicionY=" + posicionY +
+                ", direccionActual=" + direccionActual +
+                '}';
     }
 }

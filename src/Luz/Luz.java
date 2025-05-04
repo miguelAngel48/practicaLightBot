@@ -31,4 +31,13 @@ public class Luz {
     public int hashCode() {
         return Objects.hash(posicionX, posicionY, encendido);
     }
+
+    @Override
+    public String toString() {
+        return "Luz{" +
+                "posicionX=" + posicionX +
+                ", posicionY=" + posicionY +
+                ", encendido=" + encendido +
+                '}';
+    }
 }
