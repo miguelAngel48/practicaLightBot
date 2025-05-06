@@ -9,6 +9,7 @@ public class LightBot {
     Robot robot;
     char[][] mapeo;
     List<Luz> luces = new ArrayList<>();
+    boolean repeatAbierto = false;
 
     LightBot(String[] mapa) {
         //En el constructor identificamos el 'mapa' y lo convertimos en una matriz para poder recorrerla y posteriormente identificar los elementos que contiene.
@@ -18,15 +19,29 @@ public class LightBot {
     }
 
     void runProgram(String[] comandos) {
+
         for (String comando : comandos) {
             //Llamamos al método ordenesJugador pasando la String de la orden concreta para ejecutar dependiendo de cual es la orden y la lista de luces para saber cual es la 'bombilla'
             // que encendemos con el comando 'LIGHT' cambiando la variable booleana de 'encendido'.
-            robot.ordenesJugador(comando, luces);
-            actualizarMapa();
+            if (comando.contains("REPEAT") || repeatAbierto) {
+                repeatAbierto = true;
+                subCadenaDeComandos(comando);
+
+                if (comando.equals("ENDREPEAT")) repeatAbierto = false;
+            } else {
+                robot.ordenesJugador(comando, luces, this.mapeo);
+                actualizarMapa();
+            }
+
 
         }
 
     }
+
+    private void subCadenaDeComandos(String comando) {
+
+    }
+
 
     void actualizarMapa() {
         for (int i = 0; i < mapeo.length; i++) {

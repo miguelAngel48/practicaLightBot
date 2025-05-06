@@ -19,10 +19,14 @@ public class Robot {
         direccionActual = dir;
     }
 
-    public void ordenesJugador(String orden, List<Luz> luces) {
+    public void ordenesJugador(String orden, List<Luz> luces, char[][] mapa) {
+        String[] partes = orden.split(" ");
+        int vecesRepite = extraerRepeat(partes);
+        if (vecesRepite != 0) orden = partes[0];
+
         switch (orden) {
             case "FORWARD":
-                compruebaDireccionActualRobot(direccionActual);
+                compruebaDireccionActualRobot(direccionActual, mapa);
                 break;
             case "RIGHT":
                 direccionActual = rotarRobot(true);
@@ -32,14 +36,32 @@ public class Robot {
                 break;
             case "LIGHT":
                 encenderLuz(luces);
-            break;
+                break;
+            case "REPEAT":
+                funcionBucle(vecesRepite);
+                break;
 
         }
     }
 
+    private int extraerRepeat(String[] orden) {
+        return Integer.parseInt(orden[1]);
+    }
+
+    private void funcionBucle(int vecesRepite) {
+        for (int i = 0; i < vecesRepite; i++) {
+            ordenesJugador();
+        }
+
+    }
+
+    private boolean saleDelMapa(char[][] mapa) {
+        return (posicionY < 0 || posicionX < 0 || posicionY >= mapa[0].length || posicionX >= mapa.length);
+    }
+
     public void encenderLuz(List<Luz> luces) {
-        for (Luz luz : luces){
-            if (this.posicionX == luz.posicionX && this.posicionY == luz.posicionY){
+        for (Luz luz : luces) {
+            if (this.posicionX == luz.posicionX && this.posicionY == luz.posicionY) {
                 luz.encendido = !luz.encendido;
                 System.out.println(luces);
                 break;
@@ -57,23 +79,31 @@ public class Robot {
         return direcciones[nuevaDireccion];
     }
 
-    private void compruebaDireccionActualRobot(direccion dir) {
+    private void compruebaDireccionActualRobot(direccion dir, char[][] mapa) {
+
         switch (dir) {
-            case U: // Up
+            case U:
                 posicionX--;  // Subimos una fila
+                if (saleDelMapa(mapa)) posicionX = (mapa.length - 1); // Volvemos por el lado opuesto de la fila
                 break;
-            case D: // Down
+            case D:
                 posicionX++;  // Bajamos una fila
+                if (saleDelMapa(mapa)) posicionX = 0; // Volvemos por el lado opuesto de la fila
                 break;
-            case L: // Left
+            case L:
                 posicionY--;  // Movemos a la izquierda
+                if (saleDelMapa(mapa))
+                    posicionY = (mapa[0].length - 1); // Volvemos por el lado opuesto del lado izquierdo
                 break;
-            case R: // Right
-                posicionY++;  // Movemos a la derecha
+            case R:
+                posicionY++;
+                // Movemos a la derecha
+                if (saleDelMapa(mapa)) posicionY = 0; // Volvemos por el lado opuesto del lado derecho
                 break;
             default:
                 // Por si acaso (no debería ocurrir)
                 throw new IllegalArgumentException("Dirección desconocida: " + dir);
+
         }
 
     }
