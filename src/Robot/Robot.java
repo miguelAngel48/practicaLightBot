@@ -20,10 +20,6 @@ public class Robot {
     }
 
     public void ordenesJugador(String orden, List<Luz> luces, char[][] mapa) {
-        String[] partes = orden.split(" ");
-        int vecesRepite = extraerRepeat(partes);
-        if (vecesRepite != 0) orden = partes[0];
-
         switch (orden) {
             case "FORWARD":
                 compruebaDireccionActualRobot(direccionActual, mapa);
@@ -37,16 +33,10 @@ public class Robot {
             case "LIGHT":
                 encenderLuz(luces);
                 break;
-            case "REPEAT":
-
-                break;
-
         }
     }
 
-    private int extraerRepeat(String[] orden) {
-        return Integer.parseInt(orden[1]);
-    }
+
 
 
 

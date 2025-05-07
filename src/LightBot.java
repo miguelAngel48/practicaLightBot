@@ -19,33 +19,37 @@ public class LightBot {
     }
 
     void runProgram(String[] comandos) {
-
+        List<String> subComandos = new ArrayList<>();
         for (String comando : comandos) {
             //Llamamos al método ordenesJugador pasando la String de la orden concreta para ejecutar dependiendo de cual es la orden y la lista de luces para saber cual es la 'bombilla'
             // que encendemos con el comando 'LIGHT' cambiando la variable booleana de 'encendido'.
             if (comando.contains("REPEAT") || repeatAbierto) {
                 repeatAbierto = true;
-               int repeticiones = valorRepetir(comando);
-                subCadenaDeComandos(comando);
+                int repeticiones = valorRepetir(comando);
+                if (!comando.equals("ENDREPEAT")) {
+                    subComandos.add(comando);
+                }
 
-                if (comando.equals("ENDREPEAT")) repeatAbierto = false;
+                if (comando.equals("ENDREPEAT")) {
+                    repeatAbierto = false;
+                    for (int i = 0; i < repeticiones; i++) {
+                        for (String comandoRepeat : subComandos) {
+                            robot.ordenesJugador(comandoRepeat, luces, this.mapeo);
+                            actualizarMapa();
+                        }
+                    }
+
+                }
             } else {
                 robot.ordenesJugador(comando, luces, this.mapeo);
                 actualizarMapa();
             }
-
-
         }
-
     }
 
     private int valorRepetir(String comando) {
         String[] partesComando = comando.split(" ");
-       return Integer.parseInt(partesComando[1]);
-    }
-
-    private void subCadenaDeComandos(String comando) {
-        
+        return Integer.parseInt(partesComando[1]);
     }
 
 

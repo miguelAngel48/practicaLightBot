@@ -46,7 +46,9 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2wRztvhctxGtvxoVVg1L5to97lO" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -56,6 +58,7 @@
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.LightBotTest.test01.executor": "Run",
     "JUnit.LightBotTest.test02.executor": "Run",
+    "JUnit.LightBotTest.test03.executor": "Debug",
     "Java Scratch.scratch.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -75,7 +78,7 @@
       <recent name="Mapa" />
     </key>
   </component>
-  <component name="RunManager" selected="Java Scratch.scratch">
+  <component name="RunManager" selected="JUnit.LightBotTest.test03">
     <configuration name="LightBotTest.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="cuartaPracticaObligatoria" />
       <option name="PACKAGE_NAME" value="" />
@@ -96,6 +99,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LightBotTest.test03" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cuartaPracticaObligatoria" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
+      <option name="METHOD_NAME" value="test03" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="scratch" type="Java Scratch" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="scratch" />
       <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
@@ -105,8 +118,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Java Scratch.scratch" />
+        <item itemvalue="JUnit.LightBotTest.test03" />
         <item itemvalue="JUnit.LightBotTest.test02" />
+        <item itemvalue="Java Scratch.scratch" />
         <item itemvalue="JUnit.LightBotTest.test01" />
       </list>
     </recent_temporary>
@@ -143,6 +157,11 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
@@ -167,6 +186,11 @@
           <url>file://$PROJECT_DIR$/src/LightBotTest.java</url>
           <line>168</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/LightBot.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
