@@ -38,7 +38,7 @@ public class Robot {
                 encenderLuz(luces);
                 break;
             case "REPEAT":
-                funcionBucle(vecesRepite);
+
                 break;
 
         }
@@ -48,12 +48,9 @@ public class Robot {
         return Integer.parseInt(orden[1]);
     }
 
-    private void funcionBucle(int vecesRepite) {
-        for (int i = 0; i < vecesRepite; i++) {
-            ordenesJugador();
-        }
 
-    }
+
+
 
     private boolean saleDelMapa(char[][] mapa) {
         return (posicionY < 0 || posicionX < 0 || posicionY >= mapa[0].length || posicionX >= mapa.length);

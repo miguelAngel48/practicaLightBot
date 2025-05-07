@@ -25,6 +25,7 @@ public class LightBot {
             // que encendemos con el comando 'LIGHT' cambiando la variable booleana de 'encendido'.
             if (comando.contains("REPEAT") || repeatAbierto) {
                 repeatAbierto = true;
+               int repeticiones = valorRepetir(comando);
                 subCadenaDeComandos(comando);
 
                 if (comando.equals("ENDREPEAT")) repeatAbierto = false;
@@ -38,8 +39,13 @@ public class LightBot {
 
     }
 
-    private void subCadenaDeComandos(String comando) {
+    private int valorRepetir(String comando) {
+        String[] partesComando = comando.split(" ");
+       return Integer.parseInt(partesComando[1]);
+    }
 
+    private void subCadenaDeComandos(String comando) {
+        
     }
 
 
@@ -120,9 +126,6 @@ public class LightBot {
         throw new RuntimeException("La dirección del Robot es incorrecta");
     }
 
-    private String ejecutarComando(String comando) {
-        return "";
-    }
 
     public String[] getMap() {
         //Para comprobar que el mapa coincide hay que retornar un Array de Strings con esta función convertidos la matriz en un array de Strings otra vez
