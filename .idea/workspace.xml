@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LightBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LightBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Robot/Robot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +59,7 @@
     "JUnit.LightBotTest.test01.executor": "Run",
     "JUnit.LightBotTest.test02.executor": "Run",
     "JUnit.LightBotTest.test03.executor": "Run",
+    "JUnit.LightBotTest.test04.executor": "Run",
     "Java Scratch.scratch.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -79,7 +79,7 @@
       <recent name="Mapa" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LightBotTest.test03">
+  <component name="RunManager" selected="JUnit.LightBotTest.test04">
     <configuration name="LightBotTest.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="cuartaPracticaObligatoria" />
       <option name="PACKAGE_NAME" value="" />
@@ -129,10 +129,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LightBotTest.test03" />
         <item itemvalue="JUnit.LightBotTest.test04" />
         <item itemvalue="JUnit.LightBotTest.test01" />
         <item itemvalue="JUnit.LightBotTest.test02" />
+        <item itemvalue="JUnit.LightBotTest.test03" />
         <item itemvalue="Java Scratch.scratch" />
       </list>
     </recent_temporary>
@@ -195,13 +195,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/LightBotTest.java</url>
-          <line>168</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/LightBot.java</url>
-          <line>28</line>
+          <line>29</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

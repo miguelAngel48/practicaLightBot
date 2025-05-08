@@ -20,6 +20,17 @@ public class Instruccion {
         return this.parametro = Integer.parseInt(nameYParametro[1]);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void clearList() {
+        subComandos.clear();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setLista(List<String> comando) {
         this.subComandos = comando;
