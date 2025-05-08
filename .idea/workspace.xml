@@ -7,6 +7,7 @@
     <list default="true" id="e86d0cc7-e389-433f-b48d-a67a02e3c22c" name="Changes" comment="">
       <changelist_data name="miguelAngel48" email="miguelangelponcesnachez@yahoo.es" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LightBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LightBot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Robot/Robot.java" afterDir="false" />
     </list>
@@ -58,7 +59,7 @@
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.LightBotTest.test01.executor": "Run",
     "JUnit.LightBotTest.test02.executor": "Run",
-    "JUnit.LightBotTest.test03.executor": "Debug",
+    "JUnit.LightBotTest.test03.executor": "Run",
     "Java Scratch.scratch.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -109,6 +110,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LightBotTest.test04" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cuartaPracticaObligatoria" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
+      <option name="METHOD_NAME" value="test04" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="scratch" type="Java Scratch" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="scratch" />
       <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
@@ -119,9 +130,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.LightBotTest.test03" />
+        <item itemvalue="JUnit.LightBotTest.test04" />
+        <item itemvalue="JUnit.LightBotTest.test01" />
         <item itemvalue="JUnit.LightBotTest.test02" />
         <item itemvalue="Java Scratch.scratch" />
-        <item itemvalue="JUnit.LightBotTest.test01" />
       </list>
     </recent_temporary>
   </component>
@@ -189,8 +201,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/LightBot.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="15" />
+          <line>28</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/LightBotTest.java</url>
+          <line>245</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

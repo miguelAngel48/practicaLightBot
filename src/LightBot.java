@@ -1,7 +1,9 @@
+import Instruccion.Instruccion;
 import Luz.Luz;
 import Robot.Robot;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LightBot {
@@ -9,7 +11,9 @@ public class LightBot {
     Robot robot;
     char[][] mapeo;
     List<Luz> luces = new ArrayList<>();
+    List<String> instruccionesRepeat = new LinkedList<>();
     boolean repeatAbierto = false;
+    Instruccion repeat;
 
     LightBot(String[] mapa) {
         //En el constructor identificamos el 'mapa' y lo convertimos en una matriz para poder recorrerla y posteriormente identificar los elementos que contiene.
@@ -18,42 +22,47 @@ public class LightBot {
 
     }
 
+
     void runProgram(String[] comandos) {
-        List<String> subComandos = new ArrayList<>();
+
+
         for (String comando : comandos) {
             //Llamamos al método ordenesJugador pasando la String de la orden concreta para ejecutar dependiendo de cual es la orden y la lista de luces para saber cual es la 'bombilla'
             // que encendemos con el comando 'LIGHT' cambiando la variable booleana de 'encendido'.
-            if (comando.contains("REPEAT") || repeatAbierto) {
+            if (comando.startsWith("REPEAT")) {
+                this.repeat = new Instruccion(comando);
                 repeatAbierto = true;
-                int repeticiones = valorRepetir(comando);
-                if (!comando.equals("ENDREPEAT")) {
-                    subComandos.add(comando);
-                }
 
-                if (comando.equals("ENDREPEAT")) {
-                    repeatAbierto = false;
-                    for (int i = 0; i < repeticiones; i++) {
-                        for (String comandoRepeat : subComandos) {
-                            robot.ordenesJugador(comandoRepeat, luces, this.mapeo);
-                            actualizarMapa();
-                        }
-                    }
+            } else if (!comando.equals("ENDREPEAT") && repeatAbierto) {
+                instruccionesRepeat.add(comando);
 
-                }
+            } else if (comando.equals("ENDREPEAT")) {
+                repeat.setLista(instruccionesRepeat);
+                actuarRobotRepeat(repeat);
+                repeatAbierto = false;
             } else {
+                robot.ordenesJugador(comando, luces, this.mapeo);
+                actualizarMapa();
+            }
+
+
+        }
+    }
+
+
+    private void actuarRobotRepeat(Instruccion repeat) {
+        List<String> subComandos = repeat.subComandos;
+        int nVeces = repeat.retornarParametroYName();
+        for (int i = 0; i < nVeces; i++) {
+            for (String comando : subComandos) {
                 robot.ordenesJugador(comando, luces, this.mapeo);
                 actualizarMapa();
             }
         }
     }
 
-    private int valorRepetir(String comando) {
-        String[] partesComando = comando.split(" ");
-        return Integer.parseInt(partesComando[1]);
-    }
 
-
-    void actualizarMapa() {
+    public  void actualizarMapa() {
         for (int i = 0; i < mapeo.length; i++) {
             for (int j = 0; j < mapeo[i].length; j++) {
                 char elemento = mapeo[i][j];

@@ -1,5 +1,6 @@
 package Robot;
 
+import Instruccion.Instruccion;
 import Luz.Luz;
 
 import java.util.List;
@@ -9,6 +10,7 @@ public class Robot {
     public int posicionX;
     public int posicionY;
     public direccion direccionActual;
+
 
     public enum direccion {R, D, L, U}
 
@@ -33,13 +35,9 @@ public class Robot {
             case "LIGHT":
                 encenderLuz(luces);
                 break;
+
         }
     }
-
-
-
-
-
 
 
     private boolean saleDelMapa(char[][] mapa) {
@@ -50,7 +48,7 @@ public class Robot {
         for (Luz luz : luces) {
             if (this.posicionX == luz.posicionX && this.posicionY == luz.posicionY) {
                 luz.encendido = !luz.encendido;
-                System.out.println(luces);
+
                 break;
             }
         }

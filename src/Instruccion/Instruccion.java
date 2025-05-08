@@ -1,20 +1,30 @@
 package Instruccion;
 
+
 import java.util.List;
 
 public class Instruccion {
-    String name;
+    public String name;
     int parametro;
-    List<String> subComandos;
+    public List<String> subComandos;
 
-    Instruccion(String name) {
+    public Instruccion(String name) {
         this.name = name;
 
     }
 
-    void volverValor(){
 
+    public int retornarParametroYName() {
+        String[] nameYParametro = this.name.split(" ");
+        this.name = nameYParametro[0];
+        return this.parametro = Integer.parseInt(nameYParametro[1]);
     }
+
+
+    public void setLista(List<String> comando) {
+        this.subComandos = comando;
+    }
+
 }
 
 
