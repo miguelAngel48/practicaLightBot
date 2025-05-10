@@ -5,16 +5,18 @@ import Robot.Robot;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class LightBot {
     String[] mapa;
     Robot robot;
     char[][] mapeo;
     List<Luz> luces = new ArrayList<>();
-    List<String> instruccionesRepeat = new LinkedList<>();
+    Stack<Instruccion> pilasRepeats = new Stack<>();
+    List<String> subCondiciones = new LinkedList<>();
     boolean repeatAbierto = false;
-    Instruccion repeat = new Instruccion("");
-    int n = 0;
+    Instruccion repeat;
+
 
     LightBot(String[] mapa) {
         //En el constructor identificamos el 'mapa' y lo convertimos en una matriz para poder recorrerla y posteriormente identificar los elementos que contiene.
@@ -25,42 +27,57 @@ public class LightBot {
 
 
     void runProgram(String[] comandos) {
-
-
+        List<Instruccion> instComandos = new ArrayList<>();
         for (String comando : comandos) {
-            //Llamamos al método ordenesJugador pasando la String de la orden concreta para ejecutar dependiendo de cual es la orden y la lista de luces para saber cual es la 'bombilla'
-            // que encendemos con el comando 'LIGHT' cambiando la variable booleana de 'encendido'.
-            if (comando.startsWith("REPEAT")) {
-                repeat.setName(comando);
-                repeatAbierto = true;
+            instComandos.add(new Instruccion(comando));
+            bucleDelRepeat(instComandos.getLast());
+        }
+    }
 
-            } else if (!comando.equals("ENDREPEAT") && repeatAbierto) {
-                instruccionesRepeat.add(comando);
+    private void bucleDelRepeat(Instruccion comando) {
 
-            } else if (comando.equals("ENDREPEAT")) {
-                repeat.setLista(instruccionesRepeat);
-                actuarRobotRepeat(repeat);
-                repeatAbierto = false;
+        //Llamamos al método ordenesJugador pasando la String de la orden concreta para ejecutar dependiendo de cual es la orden y la lista de luces para saber cual es la 'bombilla'
+        // que encendemos con el comando 'LIGHT' cambiando la variable booleana de 'encendido'.
+        if (comando.name.startsWith("REPEAT")) {
+            pilasRepeats.push(comando);
+
+            repeatAbierto = true;
+
+        } else if (!comando.name.equals("ENDREPEAT") && repeatAbierto) {
+            pilasRepeats.peek().addOnList(comando);
+
+        } else if (comando.name.equals("ENDREPEAT")) {
+
+            if ((pilasRepeats.size() > 1)) {
+                Instruccion ultimaInstruccion = pilasRepeats.pop();
+                ultimaInstruccion.setListaRepetidaXVeces(ultimaInstruccion.subComandos);
+                pilasRepeats.peek().addLista(ultimaInstruccion.subComandos);
+
             } else {
-                robot.ordenesJugador(comando, luces, this.mapeo);
-                actualizarMapa();
+
+                Instruccion ultimaInst = pilasRepeats.pop();
+                System.out.println(ultimaInst);
+                actuarRobotRepeat(ultimaInst);
             }
+            if (pilasRepeats.empty()) repeatAbierto = false;
 
-
+        } else {
+            robot.ordenesJugador(comando.name, luces, this.mapeo);
+            actualizarMapa();
         }
     }
 
 
     private void actuarRobotRepeat(Instruccion repeat) {
-        List<String> subComandos = repeat.subComandos;
-        int nVeces = repeat.retornarParametroYName();
+        List<Instruccion> subComandos = repeat.subComandos;
+        int nVeces = repeat.parametro;
         for (int i = 0; i < nVeces; i++) {
-            for (String comando : subComandos) {
-                robot.ordenesJugador(comando, luces, this.mapeo);
+            for (Instruccion comando : subComandos) {
+                robot.ordenesJugador(comando.name, luces, this.mapeo);
                 actualizarMapa();
             }
         }
-        actualizarRepeat();
+
     }
 
     private void actualizarRepeat() {
