@@ -2,10 +2,7 @@ import Instruccion.Instruccion;
 import Luz.Luz;
 import Robot.Robot;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class LightBot {
     String[] mapa;
@@ -13,7 +10,7 @@ public class LightBot {
     char[][] mapeo;
     List<Luz> luces = new ArrayList<>();
     Stack<Instruccion> pilasRepeats = new Stack<>();
-    List<String> subCondiciones = new LinkedList<>();
+
     boolean repeatAbierto = false;
     Instruccion repeat;
 
@@ -28,10 +25,13 @@ public class LightBot {
 
     void runProgram(String[] comandos) {
         List<Instruccion> instComandos = new ArrayList<>();
+
         for (String comando : comandos) {
             instComandos.add(new Instruccion(comando));
             bucleDelRepeat(instComandos.getLast());
+
         }
+
     }
 
     private void bucleDelRepeat(Instruccion comando) {
@@ -47,18 +47,7 @@ public class LightBot {
             pilasRepeats.peek().addOnList(comando);
 
         } else if (comando.name.equals("ENDREPEAT")) {
-
-            if ((pilasRepeats.size() > 1)) {
-                Instruccion ultimaInstruccion = pilasRepeats.pop();
-                ultimaInstruccion.setListaRepetidaXVeces(ultimaInstruccion.subComandos);
-                pilasRepeats.peek().addLista(ultimaInstruccion.subComandos);
-
-            } else {
-
-                Instruccion ultimaInst = pilasRepeats.pop();
-                System.out.println(ultimaInst);
-                actuarRobotRepeat(ultimaInst);
-            }
+            extraerUltimoDeLaPila();
             if (pilasRepeats.empty()) repeatAbierto = false;
 
         } else {
@@ -67,22 +56,28 @@ public class LightBot {
         }
     }
 
+    private void extraerUltimoDeLaPila() {
+        if ((pilasRepeats.size() > 1)) {
+            Instruccion ultimaInstruccion = pilasRepeats.pop();
+            ultimaInstruccion.setListaRepetidaXVeces(ultimaInstruccion.subComandos);
+            pilasRepeats.peek().addLista(ultimaInstruccion.subComandos);
 
-    private void actuarRobotRepeat(Instruccion repeat) {
-        List<Instruccion> subComandos = repeat.subComandos;
-        int nVeces = repeat.parametro;
-        for (int i = 0; i < nVeces; i++) {
-            for (Instruccion comando : subComandos) {
-                robot.ordenesJugador(comando.name, luces, this.mapeo);
-                actualizarMapa();
-            }
+        } else {
+            Instruccion ultimaInst = pilasRepeats.pop();
+            actuarRobotRepeat(ultimaInst);
         }
-
     }
 
-    private void actualizarRepeat() {
-        repeat.setName(" ");
-        repeat.clearList();
+
+    private void actuarRobotRepeat(Instruccion repeat) {
+        int nVeces = repeat.parametro;
+        for (int i = 0; i < nVeces; i++) {
+            for (Instruccion comando : repeat.subComandos) {
+                robot.ordenesJugador(comando.name, luces, this.mapeo);
+                actualizarMapa();
+
+            }
+        }
     }
 
 

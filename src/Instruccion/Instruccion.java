@@ -15,11 +15,19 @@ public class Instruccion {
         if (this.name.startsWith("REPEAT")) {
             retornarParametroYName();
             this.subComandos = new ArrayList<>();
-
         }
 
     }
-
+    public Instruccion(Instruccion otra) {
+        this.name = otra.name;
+        this.parametro = otra.parametro;
+        this.subComandos = new ArrayList<>();
+        if (otra.subComandos != null) {
+            for (Instruccion subInstruccion : otra.subComandos) {
+                this.subComandos.add(new Instruccion(subInstruccion)); // Recursivo
+            }
+        }
+    }
     public int retornarParametroYName() {
         String[] nameYParametro = this.name.split(" ");
         this.name = nameYParametro[0];
@@ -44,15 +52,25 @@ public class Instruccion {
     }
 
     public void setListaRepetidaXVeces(List<Instruccion> comando) {
-        int vecesReoeat = parametro;
-        for (int i = 0; i < vecesReoeat; i++) {
-            this.subComandos.addAll(comando);
+        int vecesRepeat = parametro;
+        // Copia segura
+        List<Instruccion> copia = new ArrayList<>();
+        for (Instruccion inst : comando) {
+            copia.add(new Instruccion(inst));
+        }
+        // Empieza desde uno sino hace una iteración de mas
+        for (int i = 1; i < vecesRepeat; i++) {
+            for (Instruccion inst : copia) {
+                this.subComandos.add(new Instruccion(inst));
+            }
         }
 
     }
 
     public void addLista(List<Instruccion> listComando) {
-        this.subComandos.addAll(listComando);
+        for (Instruccion inst : listComando) {
+            this.subComandos.add(new Instruccion(inst));
+        }
     }
 
     @Override

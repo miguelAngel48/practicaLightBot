@@ -61,6 +61,8 @@
     "JUnit.LightBotTest.test03.executor": "Run",
     "JUnit.LightBotTest.test04.executor": "Run",
     "JUnit.LightBotTest.test05.executor": "Run",
+    "JUnit.LightBotTest.test06.executor": "Run",
+    "JUnit.LightBotTest.test07.executor": "Run",
     "Java Scratch.scratch.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -72,7 +74,8 @@
     "last_opened_file_path": "C:/Users/macor/cuartaPractica/cuartaPracticaObligatoria",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "advanced.settings"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -80,32 +83,12 @@
       <recent name="Mapa" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LightBotTest.test05">
+  <component name="RunManager" selected="JUnit.LightBotTest.test07">
     <configuration name="LightBotTest.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="cuartaPracticaObligatoria" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="LightBotTest" />
       <option name="METHOD_NAME" value="test01" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LightBotTest.test02" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="cuartaPracticaObligatoria" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
-      <option name="METHOD_NAME" value="test02" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LightBotTest.test03" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="cuartaPracticaObligatoria" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
-      <option name="METHOD_NAME" value="test03" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -131,13 +114,40 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LightBotTest.test06" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cuartaPracticaObligatoria" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
+      <option name="METHOD_NAME" value="test06" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LightBotTest.test07" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cuartaPracticaObligatoria" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
+      <option name="METHOD_NAME" value="test07" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.LightBotTest.test07" />
+      <item itemvalue="JUnit.LightBotTest.test01" />
+      <item itemvalue="JUnit.LightBotTest.test04" />
+      <item itemvalue="JUnit.LightBotTest.test05" />
+      <item itemvalue="JUnit.LightBotTest.test06" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LightBotTest.test05" />
+        <item itemvalue="JUnit.LightBotTest.test07" />
+        <item itemvalue="JUnit.LightBotTest.test06" />
         <item itemvalue="JUnit.LightBotTest.test04" />
+        <item itemvalue="JUnit.LightBotTest.test05" />
         <item itemvalue="JUnit.LightBotTest.test01" />
-        <item itemvalue="JUnit.LightBotTest.test02" />
-        <item itemvalue="JUnit.LightBotTest.test03" />
       </list>
     </recent_temporary>
   </component>
@@ -198,14 +208,10 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/LightBot.java</url>
-          <line>36</line>
-          <properties class="LightBot" method="bucleDelRepeat">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="17" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Robot/Robot.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
