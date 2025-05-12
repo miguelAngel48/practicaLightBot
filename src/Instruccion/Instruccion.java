@@ -3,9 +3,11 @@ package Instruccion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Instruccion {
     public String name;
+    public String nameFunction;
     public int parametro;
     public List<Instruccion> subComandos;
 
@@ -13,14 +15,25 @@ public class Instruccion {
     public Instruccion(String name) {
         this.name = name;
         if (this.name.startsWith("REPEAT")) {
-            retornarParametroYName();
+            parametro = retornarParametroYName();
             this.subComandos = new ArrayList<>();
+        }
+        if (this.name.startsWith("FUNCTION")) {
+            nameFunction = nombreDeFuncion();
         }
 
     }
+
+    private String nombreDeFuncion() {
+        String[] nombreYFuncion = this.name.split(" ");
+        this.name = nombreYFuncion[0];
+        return nombreYFuncion[1];
+    }
+
     public Instruccion(Instruccion otra) {
         this.name = otra.name;
         this.parametro = otra.parametro;
+        this.nameFunction = otra.nameFunction;
         this.subComandos = new ArrayList<>();
         if (otra.subComandos != null) {
             for (Instruccion subInstruccion : otra.subComandos) {
@@ -28,6 +41,7 @@ public class Instruccion {
             }
         }
     }
+
     public int retornarParametroYName() {
         String[] nameYParametro = this.name.split(" ");
         this.name = nameYParametro[0];
@@ -35,17 +49,6 @@ public class Instruccion {
 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void clearList() {
-        subComandos.clear();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void addOnList(Instruccion comandoIn) {
         this.subComandos.add(comandoIn);
@@ -80,6 +83,18 @@ public class Instruccion {
                 ", parametro=" + parametro +
                 ", subComandos=" + subComandos +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Instruccion that)) return false;
+        return Objects.equals(nameFunction, that.nameFunction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(nameFunction);
     }
 }
 

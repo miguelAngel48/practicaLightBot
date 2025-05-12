@@ -10,9 +10,9 @@ public class LightBot {
     char[][] mapeo;
     List<Luz> luces = new ArrayList<>();
     Stack<Instruccion> pilasRepeats = new Stack<>();
-
+    boolean bodyFunction = false;
     boolean repeatAbierto = false;
-    Instruccion repeat;
+    String nombreFuncion;
 
 
     LightBot(String[] mapa) {
@@ -24,23 +24,44 @@ public class LightBot {
 
 
     void runProgram(String[] comandos) {
+        Map<String, List<Instruccion>> funcionesMap = new HashMap<>();
         List<Instruccion> instComandos = new ArrayList<>();
-
+        Stack<String> pilaFunciones = new Stack<>();
         for (String comando : comandos) {
             instComandos.add(new Instruccion(comando));
-            bucleDelRepeat(instComandos.getLast());
 
+            if (crearFunciones(comando, pilaFunciones, instComandos, funcionesMap)) ;
+            else identificarInstrucciones(instComandos.getLast());
+            llamadaDeFuncion(instComandos.getLast(), funcionesMap);
         }
 
     }
 
-    private void bucleDelRepeat(Instruccion comando) {
+    private boolean crearFunciones(String comando, Stack<String> pilaFunciones, List<Instruccion> instComandos, Map<String, List<Instruccion>> funcionesMap) {
 
-        //Llamamos al método ordenesJugador pasando la String de la orden concreta para ejecutar dependiendo de cual es la orden y la lista de luces para saber cual es la 'bombilla'
-        // que encendemos con el comando 'LIGHT' cambiando la variable booleana de 'encendido'.
+        if (comando.startsWith("FUNCTION")) {
+            this.nombreFuncion = instComandos.getLast().nameFunction;
+            pilaFunciones.push(this.nombreFuncion);
+            funcionesMap.put(this.nombreFuncion, new ArrayList<>());
+            bodyFunction = true;
+            return true;
+        } else if (!comando.equals("ENDFUNCTION") && bodyFunction) {
+            String ultimoDeLaPila = pilaFunciones.peek();
+            funcionesMap.get(ultimoDeLaPila).add(instComandos.getLast());
+            return true;
+        } else if (comando.equals("ENDFUNCTION")) {
+            pilaFunciones.pop();
+            if (pilaFunciones.empty()) {
+                bodyFunction = false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void identificarInstrucciones(Instruccion comando) {
         if (comando.name.startsWith("REPEAT")) {
             pilasRepeats.push(comando);
-
             repeatAbierto = true;
 
         } else if (!comando.name.equals("ENDREPEAT") && repeatAbierto) {
@@ -56,6 +77,27 @@ public class LightBot {
         }
     }
 
+    private void llamadaDeFuncion(Instruccion comando, Map<String, List<Instruccion>> funcionesMap) {
+        if (comando.name.startsWith("CALL")) {
+            List<Instruccion> nombreFuncion = encuentraLlamadaFuncion(comando, funcionesMap);
+            for (Instruccion instruccionFuncion : nombreFuncion) {
+                identificarInstrucciones(instruccionFuncion);
+            }
+        }
+    }
+
+    private List<Instruccion> encuentraLlamadaFuncion(Instruccion comando, Map<String, List<Instruccion>> funcionesMap) {
+        String nameFuncion = devolverNombreFuncion(comando.name);
+        return funcionesMap.get(nameFuncion);
+
+    }
+
+
+    private String devolverNombreFuncion(String comando) {
+        String[] separarLlamada = comando.split(" ");
+        return separarLlamada[1];
+    }
+
     private void extraerUltimoDeLaPila() {
         if ((pilasRepeats.size() > 1)) {
             Instruccion ultimaInstruccion = pilasRepeats.pop();
@@ -65,14 +107,19 @@ public class LightBot {
         } else {
             Instruccion ultimaInst = pilasRepeats.pop();
             actuarRobotRepeat(ultimaInst);
+            //importante limpiar la lista sino cada vez que llamemos  con una función que tenga un repeat añadira otra vez la lista al mismo repeat
+            ultimaInst.subComandos.clear();
         }
     }
 
 
     private void actuarRobotRepeat(Instruccion repeat) {
         int nVeces = repeat.parametro;
+        System.out.println("Repetir " + nVeces + " veces con " + repeat.subComandos.size() + " instrucciones.");
         for (int i = 0; i < nVeces; i++) {
+            System.out.println(i);
             for (Instruccion comando : repeat.subComandos) {
+                System.out.println("Ejecutando: " + comando.name);
                 robot.ordenesJugador(comando.name, luces, this.mapeo);
                 actualizarMapa();
 
