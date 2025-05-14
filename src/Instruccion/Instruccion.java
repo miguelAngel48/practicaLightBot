@@ -3,31 +3,64 @@ package Instruccion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class Instruccion {
     public String name;
     public String nameFunction;
-    public int parametro;
+    public Parametro parametro;
     public List<Instruccion> subComandos;
-
+    public boolean calledByFunction = false;
 
     public Instruccion(String name) {
         this.name = name;
+        parametro = new Parametro();
         if (this.name.startsWith("REPEAT")) {
-            parametro = retornarParametroYName();
+            retornarParametroYName();
             this.subComandos = new ArrayList<>();
+        }
+        if (this.name.startsWith("CALL")) {
+            retornarLlamada();
         }
         if (this.name.startsWith("FUNCTION")) {
             nameFunction = nombreDeFuncion();
         }
 
+
     }
 
+    private void retornarLlamada() {
+        extraerParametro();
+        String[] nombreYFuncion = this.name.split(" ");
+        this.name = nombreYFuncion[0];
+        this.nameFunction = nombreYFuncion[1];
+        if (parametro.parametroStr != null) {
+            parametro.parametroNumPadre = Integer.parseInt(parametro.parametroStr);
+
+
+        }
+
+
+    }
+
+
     private String nombreDeFuncion() {
+        extraerParametro();
         String[] nombreYFuncion = this.name.split(" ");
         this.name = nombreYFuncion[0];
         return nombreYFuncion[1];
+    }
+
+    private void extraerParametro() {
+        int inicioP = this.name.indexOf('(');
+        int finP = this.name.indexOf(')');
+        if (inicioP != -1 && finP != -1 && inicioP < finP) {
+            parametro.parametroStr = this.name.substring(inicioP + 1, finP);
+            String[] nombreYParametro = this.name.split("\\(");
+            this.name = nombreYParametro[0];
+        }
+
+
     }
 
     public Instruccion(Instruccion otra) {
@@ -35,17 +68,26 @@ public class Instruccion {
         this.parametro = otra.parametro;
         this.nameFunction = otra.nameFunction;
         this.subComandos = new ArrayList<>();
+        this.parametro.parametroStr = otra.parametro.parametroStr;
+        this.calledByFunction = otra.calledByFunction;
         if (otra.subComandos != null) {
             for (Instruccion subInstruccion : otra.subComandos) {
-                this.subComandos.add(new Instruccion(subInstruccion)); // Recursivo
+                this.subComandos.add(new Instruccion(subInstruccion));
             }
         }
     }
 
-    public int retornarParametroYName() {
+    public void retornarParametroYName() {
         String[] nameYParametro = this.name.split(" ");
         this.name = nameYParametro[0];
-        return this.parametro = Integer.parseInt(nameYParametro[1]);
+        parametro.parametroStr = nameYParametro[1];
+        char c = nameYParametro[1].charAt(0);
+        if (Character.isLetter(c)){
+            parametro.parametroStr = nameYParametro[1];
+        } else {
+            parametro.parametroNum = Integer.parseInt(nameYParametro[1]);
+        }
+
 
     }
 
@@ -55,7 +97,7 @@ public class Instruccion {
     }
 
     public void setListaRepetidaXVeces(List<Instruccion> comando) {
-        int vecesRepeat = parametro;
+        int vecesRepeat = parametro.parametroNum;
         // Copia segura
         List<Instruccion> copia = new ArrayList<>();
         for (Instruccion inst : comando) {
@@ -85,17 +127,18 @@ public class Instruccion {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Instruccion that)) return false;
-        return Objects.equals(nameFunction, that.nameFunction);
+    public int getParametroNum() {
+        return parametro.parametroNum;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(nameFunction);
+    public String getParametroStr() {
+        return parametro.parametroStr;
     }
+
+    public void setParametroNum(int parametroNum) {
+        this.parametro.parametroNum = parametroNum;
+    }
+
+
 }
-
 

@@ -1,7 +1,7 @@
 package Robot;
 
-import Instruccion.Instruccion;
 import Luz.Luz;
+import NoLuz.NoLuz;
 
 import java.util.List;
 
@@ -10,7 +10,6 @@ public class Robot {
     public int posicionX;
     public int posicionY;
     public direccion direccionActual;
-
 
     public enum direccion {R, D, L, U}
 
@@ -21,7 +20,7 @@ public class Robot {
         direccionActual = dir;
     }
 
-    public void ordenesJugador(String orden, List<Luz> luces, char[][] mapa) {
+    public void ordenesJugador(String orden, List<Luz> luces, char[][] mapa, List<NoLuz> noLuces) {
         switch (orden) {
             case "FORWARD":
                 compruebaDireccionActualRobot(direccionActual, mapa);
@@ -33,7 +32,7 @@ public class Robot {
                 direccionActual = rotarRobot(false);
                 break;
             case "LIGHT":
-                encenderLuz(luces);
+                encenderLuz(luces, noLuces, mapa);
                 break;
 
         }
@@ -44,12 +43,32 @@ public class Robot {
         return (posicionY < 0 || posicionX < 0 || posicionY >= mapa[0].length || posicionX >= mapa.length);
     }
 
-    public void encenderLuz(List<Luz> luces) {
+    public void encenderLuz(List<Luz> luces, List<NoLuz> noLuces, char[][] mapa) {
+        boolean encendida = false;
         for (Luz luz : luces) {
             if (this.posicionX == luz.posicionX && this.posicionY == luz.posicionY) {
                 luz.encendido = !luz.encendido;
 
-                break;
+            }
+        }
+        if (!encendida) {
+            encontrarIntento(noLuces, mapa);
+        }
+    }
+
+    private void encontrarIntento(List<NoLuz> noLuces, char[][] mapa) {
+        char celdaActual = mapa[this.posicionX][this.posicionY];
+        if (celdaActual == '.') {
+            boolean encontrada = false;
+            for (NoLuz noLuz : noLuces) {
+                if (this.posicionX == noLuz.x && this.posicionY == noLuz.y) {
+                    noLuz.intento = true;
+                    encontrada = true;
+                    break;
+                }
+            }
+            if (!encontrada) {
+                noLuces.add(new NoLuz(this.posicionX, this.posicionY, true));
             }
         }
     }

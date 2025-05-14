@@ -1,5 +1,6 @@
 import Instruccion.Instruccion;
 import Luz.Luz;
+import NoLuz.NoLuz;
 import Robot.Robot;
 
 import java.util.*;
@@ -7,13 +8,17 @@ import java.util.*;
 public class LightBot {
     String[] mapa;
     Robot robot;
+    NoLuz noLuz;
     char[][] mapeo;
     List<Luz> luces = new ArrayList<>();
+    List<NoLuz> noLuces = new ArrayList<>();
     Stack<Instruccion> pilasRepeats = new Stack<>();
     boolean bodyFunction = false;
     boolean repeatAbierto = false;
     String nombreFuncion;
-
+    Map<String, List<Instruccion>> funcionesMap = new HashMap<>();
+    List<Instruccion> instComandos = new ArrayList<>();
+    Stack<String> pilaFunciones = new Stack<>();
 
     LightBot(String[] mapa) {
         //En el constructor identificamos el 'mapa' y lo convertimos en una matriz para poder recorrerla y posteriormente identificar los elementos que contiene.
@@ -24,15 +29,15 @@ public class LightBot {
 
 
     void runProgram(String[] comandos) {
-        Map<String, List<Instruccion>> funcionesMap = new HashMap<>();
-        List<Instruccion> instComandos = new ArrayList<>();
-        Stack<String> pilaFunciones = new Stack<>();
+
+
         for (String comando : comandos) {
             instComandos.add(new Instruccion(comando));
-
             if (crearFunciones(comando, pilaFunciones, instComandos, funcionesMap)) ;
+            else if (llamadaDeFuncion(instComandos.getLast(), funcionesMap)) ;
             else identificarInstrucciones(instComandos.getLast());
-            llamadaDeFuncion(instComandos.getLast(), funcionesMap);
+
+
         }
 
     }
@@ -72,31 +77,33 @@ public class LightBot {
             if (pilasRepeats.empty()) repeatAbierto = false;
 
         } else {
-            robot.ordenesJugador(comando.name, luces, this.mapeo);
+            robot.ordenesJugador(comando.name, luces, this.mapeo,noLuces);
             actualizarMapa();
         }
     }
 
-    private void llamadaDeFuncion(Instruccion comando, Map<String, List<Instruccion>> funcionesMap) {
+    private boolean llamadaDeFuncion(Instruccion comando, Map<String, List<Instruccion>> funcionesMap) {
         if (comando.name.startsWith("CALL")) {
+            int parametro = comando.parametro.parametroNumPadre;
             List<Instruccion> nombreFuncion = encuentraLlamadaFuncion(comando, funcionesMap);
+
             for (Instruccion instruccionFuncion : nombreFuncion) {
+                if (comando.parametro.parametroNumPadre != 0) {
+                    comando.calledByFunction = true;
+                    instruccionFuncion.setParametroNum(parametro);
+                }
                 identificarInstrucciones(instruccionFuncion);
             }
+            return true;
         }
+        return false;
     }
 
     private List<Instruccion> encuentraLlamadaFuncion(Instruccion comando, Map<String, List<Instruccion>> funcionesMap) {
-        String nameFuncion = devolverNombreFuncion(comando.name);
-        return funcionesMap.get(nameFuncion);
+        return funcionesMap.get(comando.nameFunction);
 
     }
 
-
-    private String devolverNombreFuncion(String comando) {
-        String[] separarLlamada = comando.split(" ");
-        return separarLlamada[1];
-    }
 
     private void extraerUltimoDeLaPila() {
         if ((pilasRepeats.size() > 1)) {
@@ -114,15 +121,11 @@ public class LightBot {
 
 
     private void actuarRobotRepeat(Instruccion repeat) {
-        int nVeces = repeat.parametro;
-        System.out.println("Repetir " + nVeces + " veces con " + repeat.subComandos.size() + " instrucciones.");
+        int nVeces = repeat.getParametroNum();
         for (int i = 0; i < nVeces; i++) {
-            System.out.println(i);
             for (Instruccion comando : repeat.subComandos) {
-                System.out.println("Ejecutando: " + comando.name);
-                robot.ordenesJugador(comando.name, luces, this.mapeo);
+                robot.ordenesJugador(comando.name, luces, this.mapeo,noLuces);
                 actualizarMapa();
-
             }
         }
     }
@@ -144,9 +147,23 @@ public class LightBot {
                 return '.';
             case 'O':
                 if (encontrarLuzEncendida(x, y)) return 'X';
+            case '.':
+                if (encontrarIntentoLuz(x, y)) {
+                    return 'x'; // ← Si se intentó encender luz donde no había
+                }
+
             default:
                 return pasos;
         }
+    }
+
+    private boolean encontrarIntentoLuz(int x, int y) {
+        for (NoLuz noluzs : this.noLuces) {
+            if (x == noluzs.x && y == noluzs.y && noluzs.intento) {
+               return true;
+            }
+        }
+        return false;
     }
 
     private boolean encontrarLuzEncendida(int x, int y) {
@@ -224,7 +241,6 @@ public class LightBot {
 
     public int[] getRobotPosition() {
         return new int[]{robot.posicionY, robot.posicionX};
-
     }
 
     void reset() {
@@ -233,6 +249,5 @@ public class LightBot {
         luces.clear();
         this.mapeo = mapaCreator(mapa);
     }
-
 
 }
