@@ -32,10 +32,19 @@ public class Robot {
                 direccionActual = rotarRobot(false);
                 break;
             case "LIGHT":
-                encenderLuz(luces, noLuces, mapa);
+                if (!noEsUnaLuz(mapa)) {
+                    encenderLuz(luces);
+                } else {
+                    intentarLuz(noLuces);
+
+                }
                 break;
 
         }
+    }
+
+    private boolean noEsUnaLuz(char[][] mapa) {
+        return mapa[posicionX][posicionY] == '.' || mapa[posicionX][posicionY] == 'U' || mapa[posicionX][posicionY] == 'R' || mapa[posicionX][posicionY] == 'D' || mapa[posicionX][posicionY] == 'L';
     }
 
 
@@ -43,32 +52,22 @@ public class Robot {
         return (posicionY < 0 || posicionX < 0 || posicionY >= mapa[0].length || posicionX >= mapa.length);
     }
 
-    public void encenderLuz(List<Luz> luces, List<NoLuz> noLuces, char[][] mapa) {
-        boolean encendida = false;
+    public void encenderLuz(List<Luz> luces) {
         for (Luz luz : luces) {
             if (this.posicionX == luz.posicionX && this.posicionY == luz.posicionY) {
                 luz.encendido = !luz.encendido;
 
+                break;
             }
-        }
-        if (!encendida) {
-            encontrarIntento(noLuces, mapa);
         }
     }
 
-    private void encontrarIntento(List<NoLuz> noLuces, char[][] mapa) {
-        char celdaActual = mapa[this.posicionX][this.posicionY];
-        if (celdaActual == '.') {
-            boolean encontrada = false;
-            for (NoLuz noLuz : noLuces) {
-                if (this.posicionX == noLuz.x && this.posicionY == noLuz.y) {
-                    noLuz.intento = true;
-                    encontrada = true;
-                    break;
-                }
-            }
-            if (!encontrada) {
-                noLuces.add(new NoLuz(this.posicionX, this.posicionY, true));
+    public void intentarLuz(List<NoLuz> noLuces) {
+        for (NoLuz noLuz : noLuces) {
+            if (this.posicionX == noLuz.x && this.posicionY == noLuz.y) {
+                noLuz.intento = !noLuz.intento;
+
+                break;
             }
         }
     }

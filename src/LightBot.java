@@ -30,16 +30,20 @@ public class LightBot {
 
     void runProgram(String[] comandos) {
 
-
         for (String comando : comandos) {
             instComandos.add(new Instruccion(comando));
-            if (crearFunciones(comando, pilaFunciones, instComandos, funcionesMap)) ;
-            else if (llamadaDeFuncion(instComandos.getLast(), funcionesMap)) ;
-            else identificarInstrucciones(instComandos.getLast());
+            indentificarInstruccion(comando);
 
 
         }
 
+    }
+
+    private void indentificarInstruccion(String comando) {
+
+        if (crearFunciones(comando, pilaFunciones, instComandos, funcionesMap)) ;
+        else if (llamadaDeFuncion(instComandos.getLast(), funcionesMap)) ;
+        else identificarInstrucciones(instComandos.getLast());
     }
 
     private boolean crearFunciones(String comando, Stack<String> pilaFunciones, List<Instruccion> instComandos, Map<String, List<Instruccion>> funcionesMap) {
@@ -77,7 +81,7 @@ public class LightBot {
             if (pilasRepeats.empty()) repeatAbierto = false;
 
         } else {
-            robot.ordenesJugador(comando.name, luces, this.mapeo,noLuces);
+            robot.ordenesJugador(comando.name, luces, this.mapeo, noLuces);
             actualizarMapa();
         }
     }
@@ -92,6 +96,7 @@ public class LightBot {
                     comando.calledByFunction = true;
                     instruccionFuncion.setParametroNum(parametro);
                 }
+
                 identificarInstrucciones(instruccionFuncion);
             }
             return true;
@@ -123,9 +128,14 @@ public class LightBot {
     private void actuarRobotRepeat(Instruccion repeat) {
         int nVeces = repeat.getParametroNum();
         for (int i = 0; i < nVeces; i++) {
+
             for (Instruccion comando : repeat.subComandos) {
-                robot.ordenesJugador(comando.name, luces, this.mapeo,noLuces);
-                actualizarMapa();
+                if (comando.name.equals("CALL")) llamadaDeFuncion(comando, funcionesMap);
+                else {
+                    robot.ordenesJugador(comando.name, luces, this.mapeo, noLuces);
+                    actualizarMapa();
+                }
+
             }
         }
     }
@@ -136,31 +146,38 @@ public class LightBot {
             for (int j = 0; j < mapeo[i].length; j++) {
                 char elemento = mapeo[i][j];
                 mapeo[i][j] = actualizarPasosRobot(elemento, i, j);
+                System.out.printf("%s", mapeo[i][j]);
             }
+            System.out.println();
         }
+        System.out.println();
+        System.out.println("---------------");
+        System.out.println();
     }
 
     private char actualizarPasosRobot(char pasos, int x, int y) {
         //Como el nombre indica actualizamos los pasos del robot y el estado de las bombillas
-        switch (pasos) {
-            case 'U', 'R', 'D', 'L':
-                return '.';
-            case 'O':
-                if (encontrarLuzEncendida(x, y)) return 'X';
-            case '.':
-                if (encontrarIntentoLuz(x, y)) {
-                    return 'x'; // ← Si se intentó encender luz donde no había
-                }
 
-            default:
-                return pasos;
+        if (encontrarLuzEncendida(x, y)) {
+            return 'X'; // Prioridad máxima: luz encendida
+        }  // Segundo: intento de luz
+        else if (pasos == 'U' || pasos == 'R' || pasos == 'D' || pasos == 'L' || pasos == '.') {
+            if (encontrarIntentoLuz(x, y)) {
+                return 'x';
+            } else {
+                return '.'; // Tercero: limpia la posición del robot
+            }
+
+        } else {
+            return pasos; // Si nada cambió, deja lo que había
         }
     }
+
 
     private boolean encontrarIntentoLuz(int x, int y) {
         for (NoLuz noluzs : this.noLuces) {
             if (x == noluzs.x && y == noluzs.y && noluzs.intento) {
-               return true;
+                return true;
             }
         }
         return false;
@@ -196,10 +213,15 @@ public class LightBot {
                 switch (elemento) {
                     case 'R', 'D', 'L', 'U':
                         Robot.direccion dir = seleccionDireccion(elemento);
+                        noLuces.add(new NoLuz(i, j, false));
                         this.robot = new Robot(i, j, dir);
                         break;
                     case 'O':
                         luces.add(new Luz(i, j, false));
+                        break;
+                    case '.':
+
+                        noLuces.add(new NoLuz(i, j, false));
                         break;
                 }
             }

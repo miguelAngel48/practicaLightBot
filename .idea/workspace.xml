@@ -7,9 +7,7 @@
     <list default="true" id="e86d0cc7-e389-433f-b48d-a67a02e3c22c" name="Changes" comment="">
       <changelist_data name="miguelAngel48" email="miguelangelponcesnachez@yahoo.es" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LightBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LightBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Luz/Luz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Luz/Luz.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Robot/Robot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,10 +63,11 @@
     "JUnit.LightBotTest.test04.executor": "Run",
     "JUnit.LightBotTest.test05.executor": "Run",
     "JUnit.LightBotTest.test06.executor": "Run",
-    "JUnit.LightBotTest.test07.executor": "Debug",
+    "JUnit.LightBotTest.test07.executor": "Run",
     "JUnit.LightBotTest.test08.executor": "Run",
     "JUnit.LightBotTest.test09.executor": "Run",
     "JUnit.LightBotTest.test10.executor": "Run",
+    "JUnit.LightBotTest.test11.executor": "Run",
     "Java Scratch.scratch.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -89,22 +88,12 @@
       <recent name="Mapa" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LightBotTest.test10">
+  <component name="RunManager" selected="JUnit.LightBotTest">
     <configuration name="LightBotTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="cuartaPracticaObligatoria" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="LightBotTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LightBotTest.test05" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="cuartaPracticaObligatoria" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
-      <option name="METHOD_NAME" value="test05" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -139,20 +128,30 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LightBotTest.test11" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cuartaPracticaObligatoria" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LightBotTest" />
+      <option name="METHOD_NAME" value="test11" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="JUnit.LightBotTest.test10" />
-      <item itemvalue="JUnit.LightBotTest.test05" />
+      <item itemvalue="JUnit.LightBotTest.test11" />
       <item itemvalue="JUnit.LightBotTest" />
       <item itemvalue="JUnit.LightBotTest.test09" />
       <item itemvalue="JUnit.LightBotTest.test07" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LightBotTest.test10" />
         <item itemvalue="JUnit.LightBotTest" />
+        <item itemvalue="JUnit.LightBotTest.test10" />
+        <item itemvalue="JUnit.LightBotTest.test11" />
         <item itemvalue="JUnit.LightBotTest.test09" />
         <item itemvalue="JUnit.LightBotTest.test07" />
-        <item itemvalue="JUnit.LightBotTest.test05" />
       </list>
     </recent_temporary>
   </component>
@@ -215,13 +214,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Robot/Robot.java</url>
-          <line>89</line>
+          <line>88</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Instruccion/Instruccion.java</url>
-          <line>89</line>
-          <option name="timeStamp" value="34" />
+          <url>file://$PROJECT_DIR$/src/LightBot.java</url>
+          <line>128</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
