@@ -88,18 +88,14 @@ public class LightBot {
     private boolean llamadaDeFuncion(Instruccion comando, Map<String, List<Instruccion>> funcionesMap) {
         if (comando.name.startsWith("CALL")) {
             int parametro = comando.parametro.parametroNumPadre;
+            if (parametro == 0) parametro = comando.parametro.parametroNum;
             List<Instruccion> nombreFuncion = encuentraLlamadaFuncion(comando, funcionesMap);
             List<Instruccion> copiaFuncion = crearFuncionCopiaAnidada(nombreFuncion);
 
             for (Instruccion instruccionFuncion : copiaFuncion) {
-                if (comando.parametro.parametroNumPadre != 0
-                        && instruccionFuncion.getParametroStr() != null
-                        && Character.isLetter(instruccionFuncion.getParametroStr().charAt(0))) {
+                if (verificarParametroPadreStringParametroYTexto(instruccionFuncion)) {
                     instruccionFuncion.calledByFunction = true;
-                    System.out.println("parametro nombre padre: " + comando.getParametroStr() + " " + comando.nameFunction);
-                    System.out.println("parametro nombre hijo: " + instruccionFuncion.getParametroStr() + " " + instruccionFuncion.name);
                     instruccionFuncion.setParametroNum(parametro);
-
 
                 }
                 if (instruccionFuncion.name.startsWith("CALL")) llamadaDeFuncion(instruccionFuncion, funcionesMap);
@@ -110,6 +106,11 @@ public class LightBot {
             return true;
         }
         return false;
+    }
+
+    private static boolean verificarParametroPadreStringParametroYTexto(Instruccion instruccionFuncion) {
+        return instruccionFuncion.getParametroStr() != null
+                && Character.isLetter(instruccionFuncion.getParametroStr().charAt(0));
     }
 
     private List<Instruccion> crearFuncionCopiaAnidada(List<Instruccion> copiadoFuncion) {
@@ -163,12 +164,8 @@ public class LightBot {
             for (int j = 0; j < mapeo[i].length; j++) {
                 char elemento = mapeo[i][j];
                 mapeo[i][j] = actualizarPasosRobot(elemento, i, j);
-                System.out.printf("%s", mapeo[i][j]);
             }
-            System.out.println();
         }
-        System.out.println();
-        System.out.println();
     }
 
     private char actualizarPasosRobot(char pasos, int x, int y) {

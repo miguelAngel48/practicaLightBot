@@ -7,9 +7,7 @@
     <list default="true" id="e86d0cc7-e389-433f-b48d-a67a02e3c22c" name="Changes" comment="">
       <changelist_data name="miguelAngel48" email="miguelangelponcesnachez@yahoo.es" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Instruccion/Instruccion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LightBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LightBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Robot/Robot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,10 +214,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/LightBot.java</url>
-          <line>144</line>
-          <option name="timeStamp" value="52" />
+          <line>94</line>
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Instruccion.Instruccion" memberName="subComandos" />
+        <PinnedItemInfo parentTag="Instruccion.Instruccion" memberName="parametro" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
