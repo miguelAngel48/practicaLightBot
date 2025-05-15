@@ -8,7 +8,6 @@ import java.util.*;
 public class LightBot {
     String[] mapa;
     Robot robot;
-    NoLuz noLuz;
     char[][] mapeo;
     List<Luz> luces = new ArrayList<>();
     List<NoLuz> noLuces = new ArrayList<>();
@@ -29,12 +28,9 @@ public class LightBot {
 
 
     void runProgram(String[] comandos) {
-
         for (String comando : comandos) {
             instComandos.add(new Instruccion(comando));
             indentificarInstruccion(comando);
-
-
         }
 
     }
@@ -74,7 +70,10 @@ public class LightBot {
             repeatAbierto = true;
 
         } else if (!comando.name.equals("ENDREPEAT") && repeatAbierto) {
-            pilasRepeats.peek().addOnList(comando);
+            if (!pilasRepeats.isEmpty()) {
+                pilasRepeats.peek().addOnList(comando);
+            }
+
 
         } else if (comando.name.equals("ENDREPEAT")) {
             extraerUltimoDeLaPila();
@@ -90,18 +89,35 @@ public class LightBot {
         if (comando.name.startsWith("CALL")) {
             int parametro = comando.parametro.parametroNumPadre;
             List<Instruccion> nombreFuncion = encuentraLlamadaFuncion(comando, funcionesMap);
+            List<Instruccion> copiaFuncion = crearFuncionCopiaAnidada(nombreFuncion);
 
-            for (Instruccion instruccionFuncion : nombreFuncion) {
-                if (comando.parametro.parametroNumPadre != 0) {
-                    comando.calledByFunction = true;
+            for (Instruccion instruccionFuncion : copiaFuncion) {
+                if (comando.parametro.parametroNumPadre != 0
+                        && instruccionFuncion.getParametroStr() != null
+                        && Character.isLetter(instruccionFuncion.getParametroStr().charAt(0))) {
+                    instruccionFuncion.calledByFunction = true;
+                    System.out.println("parametro nombre padre: " + comando.getParametroStr() + " " + comando.nameFunction);
+                    System.out.println("parametro nombre hijo: " + instruccionFuncion.getParametroStr() + " " + instruccionFuncion.name);
                     instruccionFuncion.setParametroNum(parametro);
-                }
 
-                identificarInstrucciones(instruccionFuncion);
+
+                }
+                if (instruccionFuncion.name.startsWith("CALL")) llamadaDeFuncion(instruccionFuncion, funcionesMap);
+                else identificarInstrucciones(instruccionFuncion);
+
+
             }
             return true;
         }
         return false;
+    }
+
+    private List<Instruccion> crearFuncionCopiaAnidada(List<Instruccion> copiadoFuncion) {
+        List<Instruccion> copiaSeguridad = new ArrayList<>();
+        for (Instruccion inst : copiadoFuncion) {
+            copiaSeguridad.add(new Instruccion(inst));
+        }
+        return copiaSeguridad;
     }
 
     private List<Instruccion> encuentraLlamadaFuncion(Instruccion comando, Map<String, List<Instruccion>> funcionesMap) {
@@ -128,10 +144,11 @@ public class LightBot {
     private void actuarRobotRepeat(Instruccion repeat) {
         int nVeces = repeat.getParametroNum();
         for (int i = 0; i < nVeces; i++) {
-
             for (Instruccion comando : repeat.subComandos) {
-                if (comando.name.equals("CALL")) llamadaDeFuncion(comando, funcionesMap);
-                else {
+                if (comando.name.equals("CALL")) {
+                    llamadaDeFuncion(comando, funcionesMap);
+
+                } else {
                     robot.ordenesJugador(comando.name, luces, this.mapeo, noLuces);
                     actualizarMapa();
                 }
@@ -151,25 +168,20 @@ public class LightBot {
             System.out.println();
         }
         System.out.println();
-        System.out.println("---------------");
         System.out.println();
     }
 
     private char actualizarPasosRobot(char pasos, int x, int y) {
-        //Como el nombre indica actualizamos los pasos del robot y el estado de las bombillas
-
         if (encontrarLuzEncendida(x, y)) {
-            return 'X'; // Prioridad máxima: luz encendida
-        }  // Segundo: intento de luz
-        else if (pasos == 'U' || pasos == 'R' || pasos == 'D' || pasos == 'L' || pasos == '.') {
+            return 'X';
+        } else if (pasos == 'U' || pasos == 'R' || pasos == 'D' || pasos == 'L' || pasos == '.') {
             if (encontrarIntentoLuz(x, y)) {
                 return 'x';
             } else {
-                return '.'; // Tercero: limpia la posición del robot
+                return '.';
             }
-
         } else {
-            return pasos; // Si nada cambió, deja lo que había
+            return pasos;
         }
     }
 

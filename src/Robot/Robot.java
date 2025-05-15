@@ -36,7 +36,6 @@ public class Robot {
                     encenderLuz(luces);
                 } else {
                     intentarLuz(noLuces);
-
                 }
                 break;
 

@@ -35,15 +35,16 @@ public class Instruccion {
         this.name = nombreYFuncion[0];
         this.nameFunction = nombreYFuncion[1];
         if (parametro.parametroStr != null) {
-            parametro.parametroNumPadre = Integer.parseInt(parametro.parametroStr);
+            try{
+                parametro.parametroNumPadre = Integer.parseInt(parametro.parametroStr);
+            }catch (RuntimeException e){
 
+            }
 
         }
 
 
     }
-
-
     private String nombreDeFuncion() {
         extraerParametro();
         String[] nombreYFuncion = this.name.split(" ");
